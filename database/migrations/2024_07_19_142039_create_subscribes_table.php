@@ -15,12 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 180)->nullable();
             $table->string('phone', 20)->unique();
-            $table->unsignedBigInteger('country_id')->nullable();
-            $table->foreign('country_id')
-                ->references('id')
-                ->on('countries')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
             $table->timestamps();
         });
     }
