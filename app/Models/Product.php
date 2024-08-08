@@ -27,8 +27,8 @@ class Product extends Model
         'tags',
         'sales',
         'images',
-        'brand_id',
-        'gender_id',
+        'category_id',
+        'sub_category_id',
     ];
 
     protected $casts = [
@@ -38,14 +38,14 @@ class Product extends Model
         'images' => 'array'
     ];
 
-    public function Gender()
+    public function Category()
     {
-        return $this->belongsTo(Gender::class, 'gender_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function Brand()
+    public function SubCategory()
     {
-        return $this->belongsTo(Brand::class,  'brand_id');
+        return $this->belongsTo(SubCategory::class,  'sub_category_id');
     }
 
     public function Rating()

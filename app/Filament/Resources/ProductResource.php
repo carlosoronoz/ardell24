@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Brand;
-use App\Models\Gender;
 use App\Models\Product;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -21,6 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProductResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Category;
+use App\Models\SubCategory;
 
 class ProductResource extends Resource
 {
@@ -147,13 +147,13 @@ class ProductResource extends Resource
                         ->description('Categoria del producto')
                         ->icon('heroicon-m-flag')
                         ->schema([
-                            Forms\Components\Select::make('brand')
-                                ->relationship('Brand')
+                            Forms\Components\Select::make('category')
+                                ->relationship('Category')
                                 ->options(function (Get $get) {
-                                    return Brand::all()->map(function ($brand) {
+                                    return Category::all()->map(function ($category) {
                                         return [
-                                            'value' => $brand->id,
-                                            'label' => $brand->name,
+                                            'value' => $category->id,
+                                            'label' => $category->name,
                                         ];
                                     })->pluck('label', 'value');
                                 })
@@ -161,7 +161,7 @@ class ProductResource extends Resource
                                 ->preload()
                                 ->required()
                                 ->live()
-                                ->afterStateUpdated(fn (Set $set, ?string $state) => $set('gender_id', null))
+                                ->afterStateUpdated(fn(Set $set, ?string $state) => $set('sub_category_id', null))
                                 ->createOptionForm([
                                     Forms\Components\TextInput::make('name')
                                         ->required()
@@ -170,19 +170,20 @@ class ProductResource extends Resource
                                     Forms\Components\FileUpload::make('image')
                                         ->image()
                                         ->disk('public')
-                                        ->directory('image-brands')
+                                        ->directory('image-categories')
                                         ->visibility('private')
                                         ->label('Imagen')
                                 ])
                                 ->label('Categoría'),
-                            Forms\Components\Select::make('gender_id')
+                            Forms\Components\Select::make('sub_category_id')
                                 ->required()
-                                ->relationship('Gender')
+                                ->relationship('SubCategory')
+                                ->hidden(fn(Get $get): bool => $get('category') == null)
                                 ->options(function (Get $get) {
-                                    return Gender::where('brand_id', $get('brand'))->get()->map(function ($gender) {
+                                    return SubCategory::where('category_id', $get('category'))->get()->map(function ($sub_category) {
                                         return [
-                                            'value' => $gender->id,
-                                            'label' => $gender->name,
+                                            'value' => $sub_category->id,
+                                            'label' => $sub_category->name,
                                         ];
                                     })->pluck('label', 'value');
                                 })
@@ -194,9 +195,15 @@ class ProductResource extends Resource
                                         ->required()
                                         ->unique()
                                         ->label('Sub - categoría'),
-                                    Forms\Components\Hidden::make('brand_id')
+                                    Forms\Components\FileUpload::make('image')
+                                        ->image()
+                                        ->disk('public')
+                                        ->directory('image-categories')
+                                        ->visibility('private')
+                                        ->label('Imagen'),
+                                    Forms\Components\Hidden::make('category_id')
                                         ->default(function ($livewire): int {
-                                            return $livewire->data['brand'];
+                                            return $livewire->data['category'];
                                         })
                                 ])
                         ]),
@@ -298,15 +305,15 @@ class ProductResource extends Resource
                         '0' => 'Desactivado',
                     ])
                     ->label('Estatus whatsapp'),
-                SelectFilter::make('brand_id')
+                SelectFilter::make('category_id')
                     ->preload()
                     ->searchable()
-                    ->relationship('Brand', 'name')
+                    ->relationship('Category', 'name')
                     ->label('Categoría'),
-                SelectFilter::make('gender_id')
+                SelectFilter::make('sub_category_id')
                     ->preload()
                     ->searchable()
-                    ->relationship('Gender', 'name')
+                    ->relationship('SubCategory', 'name')
                     ->label('Sub - categoría'),
 
 

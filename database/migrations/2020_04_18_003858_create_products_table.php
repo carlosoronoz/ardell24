@@ -31,20 +31,20 @@ class CreateProductsTable extends Migration
             $table->text('tags')->nullable();
             $table->bigInteger('sales')->nullable();
             $table->json('images')->nullable();
-            $table->unsignedBigInteger('brand_id')->nullable();
-            $table->foreign('brand_id')
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')
                 ->references('id')
-                ->on('brands')
+                ->on('categories')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-            $table->unsignedBigInteger('gender_id')->nullable();
-            $table->foreign('gender_id')
+            $table->unsignedBigInteger('sub_category_id')->nullable();
+            $table->foreign('sub_category_id')
                 ->references('id')
-                ->on('genders')
+                ->on('categories')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
             $table->timestamps();
-            $table->unique(['reference', 'gender_id'], 'indice_reference_gender');
+            $table->unique(['reference', 'sub_category_id'], 'indice_reference_sub_category');
         });
     }
 

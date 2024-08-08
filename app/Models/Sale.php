@@ -37,6 +37,11 @@ class Sale extends Model
     return $this->hasOne(Payer::class, 'sale_id', 'id');
   }
 
+  public function Shipping()
+  {
+    return $this->hasOne(Shipping::class, 'sale_id', 'id');
+  }
+
   public function DetailSale()
   {
     return $this->hasMany(DetailSale::class, 'sale_id', 'id');

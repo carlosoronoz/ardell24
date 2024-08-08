@@ -25,7 +25,7 @@ class CreateSalesTable extends Migration
             $table->string('payment_id', 100)->nullable();
             $table->dateTime('date_document')->nullable();
             $table->decimal('total_amount', 11, 2)->nullable();
-            $table->enum('state', ['Anulado','Pendiente','En Proceso','Aprobado']);
+            $table->enum('state', ['Anulado','Pendiente','Procesado','Aprobado']);
             $table->boolean('status')->default(true);
             $table->json('notification')->nullable();
             $table->timestamps();

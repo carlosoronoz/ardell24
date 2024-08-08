@@ -17,14 +17,14 @@ class SalesOverview extends BaseWidget
                 ->description('Total general de ventas')
                 ->descriptionIcon('heroicon-m-currency-dollar')
                 ->color('success'),
-            Stat::make('Ordenes de artículos', Sale::where('type_sale', 'Artículos')->where('status', true)->where('state','!=','Cancelado')->get()->count())
-                ->description('Cantidad de ordenes de artículos')
+            Stat::make('Ordenes de compra', Sale::where('status', true)->where('state','!=','Anulado')->get()->count())
+                ->description('Cantidad de ordenes de compra')
                 ->descriptionIcon('heroicon-m-document-text')
-                ->color('danger'),
-            Stat::make('Ordenes de regalos', Sale::where('type_sale', 'Regalos')->where('status',true)->where('state','!=','Cancelado')->get()->count())
-                ->description('Cantidad de ordenes de regalos')
-                ->descriptionIcon('heroicon-m-gift')
                 ->color('info'),
+            Stat::make('Ordenes pendiente', Sale::where('status',true)->where('state','Pendiente')->get()->count())
+                ->description('Cantidad de ordenes pendiente')
+                ->descriptionIcon('heroicon-m-shield-exclamation')
+                ->color('danger'),
         ];
     }
 }

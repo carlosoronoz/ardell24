@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Gender extends Model
+class SubCategory extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,7 +13,7 @@ class Gender extends Model
      */
     protected $fillable = [
         'name',
-        'brand_id',        
+        'category_id',        
         'image',
         'status'
     ];
@@ -22,8 +22,8 @@ class Gender extends Model
         'status' => 'boolean',
     ];
 
-    public function Brand()
+    public function Category()
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

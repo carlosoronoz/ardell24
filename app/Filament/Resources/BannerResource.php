@@ -44,9 +44,7 @@ class BannerResource extends Resource
                                 ->columnSpanFull()
                                 ->label('Tipo de banner')
                                 ->options([
-                                    'Slider' => 'Slider',
-                                    'Tratamientos' => 'Tratamientos',
-                                    'Regalos' => 'Regalos',
+                                    'Home' => 'Home'
                                 ]),
                             Forms\Components\TextInput::make('title')
                                 ->label('Título'),

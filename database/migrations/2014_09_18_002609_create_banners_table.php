@@ -15,7 +15,7 @@ class CreateBannersTable extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('type',50);
+            $table->enum('type',['Home']);
             $table->string('title',30)->nullable();
             $table->string('subtitle',30)->nullable();
             $table->string('url',180)->nullable();

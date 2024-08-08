@@ -42,9 +42,9 @@ class SaleResource extends Resource
                         ->description('Detalle general de la venta')
                         ->icon('heroicon-m-pencil-square')
                         ->schema([
-                            Forms\Components\TextInput::make('type_sale')
+                            Forms\Components\TextInput::make('type_document')
                                 ->required()
-                                ->label('Tipo de venta')
+                                ->label('Tipo de documento')
                                 ->disabled(),
                             Forms\Components\TextInput::make('payer_name')
                                 ->label('Cliente')
@@ -153,12 +153,6 @@ class SaleResource extends Resource
                                     'Aprobado' => 'heroicon-o-check-circle',
                                 ])
                                 ->default('Pendiente'),
-                            Forms\Components\Toggle::make('send_status')
-                                ->label('Estatus del envío')
-                                ->required()
-                                ->onColor('success')
-                                ->offColor('danger')
-                                ->default(false),
                             Forms\Components\Hidden::make('status')
                                 ->label('Estatus del documento')
                                 ->required()
@@ -174,8 +168,8 @@ class SaleResource extends Resource
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->where('status', true)->where('state', '!=', 'Cancelado'))
             ->columns([
-                Tables\Columns\TextColumn::make('type_sale')
-                    ->label('Tipo de venta')
+                Tables\Columns\TextColumn::make('type_documento')
+                    ->label('Tipo de documento')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Payer.name')
                     ->label('Nombre')
@@ -205,13 +199,13 @@ class SaleResource extends Resource
                 Tables\Columns\TextColumn::make('state')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'Cancelado' => 'danger',
+                        'Anulado' => 'danger',
                         'Pendiente' => 'danger',
                         'Procesando' => 'warning',
                         'Aprobado' => 'success',
                     })
                     ->icon(fn (string $state): string => match ($state) {
-                        'Cancelado' => 'heroicon-o-clock',
+                        'Anulado' => 'heroicon-o-clock',
                         'Pendiente' => 'heroicon-o-clock',
                         'Procesando' => 'heroicon-o-arrow-path',
                         'Aprobado' => 'heroicon-o-check-circle',

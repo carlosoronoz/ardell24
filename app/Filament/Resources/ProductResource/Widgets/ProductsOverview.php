@@ -11,18 +11,18 @@ class ProductsOverview extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Artículos', Product::where('type', 'Artículo')->get()->count())
+            Stat::make('Artículos', Product::where('status', true)->get()->count())
                 ->description('Total de artículos')
                 ->descriptionIcon('heroicon-m-newspaper')
+                ->color('primary'),
+            Stat::make('Catálago', Product::where('status_wa', true)->get()->count())
+                ->description('Catálago de whatsapp')
+                ->descriptionIcon('heroicon-m-device-phone-mobile')
                 ->color('success'),
-            Stat::make('Servicios', Product::where('type', 'Servicio')->get()->count())
-                ->description('Total de servicios')
-                ->descriptionIcon('heroicon-m-heart')
+            Stat::make('Artículos', Product::where('status', false)->get()->count())
+                ->description('Artículos desactivados')
+                ->descriptionIcon('heroicon-m-shield-exclamation')
                 ->color('danger'),
-            Stat::make('Regalos', Product::where('type', 'Regalo de artículo')->orWhere('type', 'Regalo de servicio')->get()->count())
-                ->description('Total de regalos')
-                ->descriptionIcon('heroicon-m-gift')
-                ->color('info'),
         ];
     }
 }
