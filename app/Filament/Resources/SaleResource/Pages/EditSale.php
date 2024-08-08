@@ -20,7 +20,7 @@ class EditSale extends EditRecord
         return [
             Actions\Action::make('delete')
                 ->label('Anular')
-                ->action(fn (Sale $record) => $record->update(['status' => false, 'state' => 'Cancelado']))
+                ->action(fn (Sale $record) => $record->update(['status' => false, 'state' => 'Anulado']))
                 ->visible(fn (Sale $record): bool => $record->state != 'Aprobado')
                 ->requiresConfirmation()
                 ->modalIcon('heroicon-o-trash')
