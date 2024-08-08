@@ -22,7 +22,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password',180);            
             $table->string('certificate', 100)->nullable();
-            $table->boolean('status_certificate')->default(0);    
+            $table->boolean('status_certificate')->default(0); 
+            $table->boolean('account_deleted')->default(0);     
             $table->text('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
